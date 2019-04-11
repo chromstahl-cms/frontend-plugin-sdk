@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "module": "ES2015",
+        "newLine": "LF",
+        "outDir": "./lib/",
+        "target": "es5",
+        "sourceMap": false,
+        "declaration": true,
+        "lib": [
+            "es2017",
+            "dom",
+            "esnext"
+        ]
+    },
+    "include": [
+        "src/*"
+    ],
+    "exclude": [
+        ".git",
+        "node_modules"
+    ]
+}

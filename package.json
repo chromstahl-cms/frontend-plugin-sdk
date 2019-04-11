@@ -1,0 +1,19 @@
+{
+    "name": "@kloudsoftware/chromstahl-plugin",
+    "version": "1.0.0",
+    "description": "",
+    "main": "lib/index.js",
+    "source": "src/index.ts",
+    "scripts": {
+        "build": "microbundle"
+    },
+    "devDependencies": {
+        "microbundle": "^0.11.0",
+        "typescript": "^3.3.3333"
+    },
+    "author": "kloudsoftware",
+    "license": "GPLv3",
+    "dependencies": {
+        "@kloudsoftware/eisen": "^1.0.10"
+    }
+}
