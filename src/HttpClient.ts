@@ -14,6 +14,7 @@ export class HttpClient {
         return new Promise((resolve, reject) => {
             fetch(this.basePath + path, {
                 method: "GET",
+                headers: this.getHeader(),
                 redirect: "follow",
             }).then(resp => {
                 if (resp.status == 403) {
@@ -27,13 +28,36 @@ export class HttpClient {
         });
     }
 
+
+    getHeader(contentType?: string): any {
+        const token = window.localStorage.getItem("token");
+        if (token != undefined && token != null && token.length > 0) {
+            if (contentType == undefined) {
+                return {
+                    "Authorization": "Bearer " + token,
+                };
+            }
+
+            return {
+                "Content-Type": contentType,
+                "Authorization": "Bearer " + token,
+            };
+        } else {
+            if (contentType != undefined) {
+                return {
+                    "Content-Type": contentType,
+                };
+            }
+
+            return {};
+        }
+    }
+
     performPost(path: string, data: any, contentType = "application/json"): Promise<Response> {
         return new Promise((resolve, reject) => {
             fetch(this.basePath + path, {
                 method: "POST",
-                headers: {
-                    "Content-Type": contentType,
-                },
+                headers: this.getHeader(contentType),
 
                 redirect: "follow",
                 body: JSON.stringify(data),
