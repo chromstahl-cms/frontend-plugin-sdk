@@ -1,6 +1,6 @@
 {
     "name": "@kloudsoftware/chromstahl-plugin",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "description": "",
     "main": "lib/index.js",
     "source": "src/index.ts",
@@ -14,6 +14,6 @@
     "author": "kloudsoftware",
     "license": "GPLv3",
     "dependencies": {
-        "@kloudsoftware/eisen": "1.0.19"
+        "@kloudsoftware/eisen": "1.0.20"
     }
 }
