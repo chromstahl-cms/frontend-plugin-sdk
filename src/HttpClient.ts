@@ -62,7 +62,7 @@ export class HttpClient {
                 redirect: "follow",
                 body: JSON.stringify(data),
             }).then(resp => {
-                if (resp.status == 403) {
+                if (resp.status == 403 && !path.includes("token")) {
                     window.localStorage.removeItem("token");
                     window.sessionStorage.setItem("path", document.location.pathname);
                     this.app.router.resolveRoute("/login");
