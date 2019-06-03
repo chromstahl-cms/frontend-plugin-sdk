@@ -10,21 +10,27 @@ export enum Method {
 };
 
 export enum ErrorType {
-    REQUEST,
-    RESPONSE
+    REQUEST = "Request",
+    RESPONSE = "Response"
 }
 
 export abstract class Error {
     private errorMsg: string;
+    private err: TypeError
 
-    constructor(msg: string) {
+    constructor(msg: string, error?: TypeError) {
         this.errorMsg = msg;
+        this.err = error;
     }
 
     abstract type(): ErrorType;
 
     msg(): string {
         return this.errorMsg;
+    }
+
+    error(): TypeError {
+        return this.err;
     }
 }
 
@@ -53,7 +59,7 @@ export class HttpClient {
         return await this.doFetch(method, path, data, contentType);
     }
 
-    async peformGet(path: string): Promise<Response> {
+    async performGet(path: string): Promise<Response> {
         return await this.doFetch(Method.GET, path);
     }
 
@@ -86,7 +92,7 @@ export class HttpClient {
 
         try {
             const resp = await fetch(this.basePath + path, options);
-            if (resp.status == 403 && !path.includes("token")) {
+            if (resp.status == 403 && !path.includes("token") && this.app.router != undefined)  {
                 window.localStorage.removeItem("token");
                 window.sessionStorage.setItem("path", document.location.pathname);
                 await this.app.router.resolveRoute("/login");
@@ -99,7 +105,10 @@ export class HttpClient {
 
             return resp;
         } catch (error) {
-            throw new RequestError(`failed to fetch "${this.basePath + path}": ${error}`);
+            if (error.type != undefined && error.type() == ErrorType.RESPONSE) {
+                throw error;
+            }
+            throw new RequestError(`failed to fetch "${this.basePath + path}": ${error}`, error);
         }
     }
 
